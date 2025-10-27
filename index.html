@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estado de Mane</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Estado de Mane</h1>
+    <h2 id="estado">Cargando...</h2>
+    <p class="nota">La página se actualiza automáticamente cuando Mane cambia su estado.</p>
+  </main>
+
+  <script>
+    async function cargarEstado() {
+      try {
+        const respuesta = await fetch('estado.json?_=' + Date.now()); // evita caché
+        const data = await respuesta.json();
+        document.getElementById('estado').textContent = `Mane está: ${data.mane}`;
+      } catch (error) {
+        document.getElementById('estado').textContent = 'No se pudo cargar el estado.';
+      }
+    }
+
+    cargarEstado();
+    // Opcional: refrescar cada 30 segundos por si se actualiza
+    setInterval(cargarEstado, 30000);
+  </script>
+</body>
+</html>
